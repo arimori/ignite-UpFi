@@ -1,5 +1,5 @@
-import { Button, Box } from '@chakra-ui/react';
 import { useMemo } from 'react';
+import { Button, Box } from '@chakra-ui/react';
 import { useInfiniteQuery } from 'react-query';
 
 import { Header } from '../components/Header';
@@ -8,7 +8,7 @@ import { api } from '../services/api';
 import { Loading } from '../components/Loading';
 import { Error } from '../components/Error';
 
-interface ImagesResponse {
+interface ImagesData {
   data: [
     {
       title: string;
@@ -24,7 +24,7 @@ interface ImagesResponse {
 }
 
 export default function Home(): JSX.Element {
-  async function fetchImages({ pageParam = null }): Promise<ImagesResponse> {
+  async function fetchImages({ pageParam = null }): Promise<ImagesData> {
     const { data } = await api.get('api/images', {
       params: {
         after: pageParam,
@@ -46,17 +46,15 @@ export default function Home(): JSX.Element {
   });
 
   const formattedData = useMemo(() => {
-    return data?.pages.map(page => page.data.map(item => item).flat());
+    return data?.pages.map(page => page.data.map(item => item)).flat();
   }, [data]);
 
-  // TODO RENDER LOADING SCREEN
   if (isLoading) {
-    return <Loading />
+    return <Loading />;
   }
 
-  // TODO RENDER ERROR SCREEN
   if (isError) {
-    return <Error />
+    return <Error />;
   }
 
   return (
