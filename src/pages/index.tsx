@@ -25,11 +25,11 @@ interface ImagesResponse {
 
 export default function Home(): JSX.Element {
   async function fetchImages({ pageParam = null }): Promise<ImagesResponse> {
-    const { data } = await api.get('/images', {
+    const { data } = await api.get('api/images', {
       params: {
         after: pageParam,
       },
-    })
+    });
 
     return data;
   }
@@ -49,6 +49,10 @@ export default function Home(): JSX.Element {
     return data?.pages.map(page => page.data.map(item => item).flat());
   }, [data]);
 
+  // TODO RENDER LOADING SCREEN
+  if (isLoading) {
+    return <Loading />
+  }
 
   // TODO RENDER ERROR SCREEN
   if (isError) {

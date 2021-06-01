@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Card } from './Card';
 import { ModalViewImage } from './Modal/ViewImage';
 
-interface Card {
+export interface Card {
   title: string;
   description: string;
   url: string;
@@ -29,8 +29,8 @@ export function CardList({ cards }: CardsProps): JSX.Element {
       <SimpleGrid columns={3} spacing="40px">
         {cards?.map(card => (
           <Card
-            data={card}
             key={card.id}
+            data={card}
             viewImage={() => handleViewImage(card.url)}
           />
         ))}
